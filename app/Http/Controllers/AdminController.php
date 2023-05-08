@@ -6,7 +6,8 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function dashboard() {
-        return dd("admin");
+    public function dashboard(){
+        $data['title'] = 'Admin-Dashboard';
+        return view('admin.dashboard',$data);
     }
 }

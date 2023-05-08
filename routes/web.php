@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,11 +20,13 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    if(auth()->user()->hasRole('Admin')){
+        return redirect()->route('admin.dashboard');
+    }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::group(["prefix" => "admin", "middleware" => ['auth', 'verified', 'role:admin']], function() {
-    Route::get("dashboard", [AdminController::class, "dashboard"])->name("admin.dashboard");
+Route::group(['prefix'=>'admin','middleware'=>['auth', 'verified','role:Admin']],function(){
+    Route::get('dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
 });
 
 Route::middleware('auth')->group(function () {
