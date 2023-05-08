@@ -20,13 +20,13 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    if(auth()->user()->hasRole('Admin')){
+    if (auth()->user()->hasRole('admin')) {
         return redirect()->route('admin.dashboard');
     }
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::group(['prefix'=>'admin','middleware'=>['auth', 'verified','role:Admin']],function(){
-    Route::get('dashboard',[AdminController::class,'dashboard'])->name('admin.dashboard');
+Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'verified', 'role:admin']], function () {
+    Route::get('dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 });
 
 Route::middleware('auth')->group(function () {
@@ -35,4 +35,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
